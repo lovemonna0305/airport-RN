@@ -30,7 +30,7 @@ import FlightInfo from "../screens/home/FlightInfo";
 import AirportGuide from "../screens/home/AirportGuide";
 import Services from "../screens/home/Services";
 import Lounges from "../screens/home/Lounges";
-// import SettingsBasic from "../screens/home/SettingsBasic";
+import Account from "../screens/home/Account";
 // import SettingsPersonal from "../screens/home/SettingsPersonal";
 // import SettingsSecurity from "../screens/home/SettingsSecurity";
 // import SettingsAppearance from "../screens/home/SettingsAppearance";
@@ -114,7 +114,7 @@ export default function StackNavigator() {
                     component={FlightInfo}
                     options={{ headerShown: false }}
                   />
-                   <Stack.Screen
+                  <Stack.Screen
                     name="airportGuide"
                     component={AirportGuide}
                     options={{ headerShown: false }}
@@ -129,12 +129,12 @@ export default function StackNavigator() {
                     component={Lounges}
                     options={{ headerShown: false }}
                   />
-                  {/*<Stack.Screen
-                    name="settingsPersonal"
-                    component={SettingsPersonal}
+                  <Stack.Screen
+                    name="account"
+                    component={Account}
                     options={{ headerShown: false }}
                   />
-                  <Stack.Screen
+                  {/*<Stack.Screen
                     name="settingsSecurity"
                     component={SettingsSecurity}
                     options={{ headerShown: false }}
