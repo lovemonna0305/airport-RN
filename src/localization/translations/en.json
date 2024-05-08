@@ -1,0 +1,75 @@
+{
+  "language": "English",
+  "login": {
+    "welcome": "Welcome!",
+    "login": "Login",
+    "email_address": "Email address",
+    "password": "password",
+    "continuew_with": "Or continue with",
+    "register_now": "Register now",
+    "not_member": "Not a member?",
+    "forgotPassword": "Forgot password?"
+  },
+  "register":{
+    "register_your_account":"Register your account",
+    "enter_basic_details":"Enter basic details",
+    "name":"Name",
+    "dob":"Date of Birth",
+    "pob":"Place of Birth",
+    "passport":"Passport",
+    "enter_personal_details":"Enter your personal details",
+    "height":"Height",
+    "weight":"Weight",
+    "club":"Club",
+    "position_on_pitch":"Position on Pitch",
+    "upload_photo_avatar":"Upload your profile photo or avatar",
+    "next":"Next",
+    "register":"Register"
+  },
+  "home":{
+    "search":"Search flights, destinations",
+    "info":"Flight Information",
+    "news":"Airport news and updates",
+    "show_more":"Show More"
+  },
+  "createvideo":{
+    "upload":"Upload"
+  },
+  "menu":{
+    "home":"Home",
+    "flight_info":"Flight Info",
+    "airport_guide":"Airport Guide",
+    "services":"Services"
+  },
+  "statistics":{
+    "last_match":"Last Match",
+    "personal_results":"Personal Results",
+    "team_results":"Team Results",
+    "kms":"kms covered",
+    "passing":"Passing",
+    "shooting":"Shooting",
+    "dribbling":"Dribbling",
+    "tackles":"Tackles",
+    "headers":"Headers",
+    "average":"Average"
+  },
+  "settings":{
+    "basic":"Basic",
+    "personal":"Personal",
+    "security":"Security",
+    "appearance":"Appearance",
+    "modify_basic_information":"Modify basic information in your profile",
+    "modify_security":"Modify security settings",
+    "modify_appearance":"Modify appearance of the app",
+    "current_password":"Current Password",
+    "new_password":"New Password",
+    "confirm_password":"Confirm Password",
+    "enable_dark_mode":"Enable Dark Mode",
+    "save":"Save",
+    "logout":"Log out"
+
+  },
+  "change_your_picutre":"Change your picture",
+  "take_photo":"Take a photo",
+  "choose_from_your_file":"Choose from your file"
+}
