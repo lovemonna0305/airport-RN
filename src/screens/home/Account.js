@@ -21,6 +21,7 @@ import { Colors } from "../../theme/color";
 import Icons from "react-native-vector-icons/Ionicons";
 import IconF from "react-native-vector-icons/FontAwesome";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import IconIonicons from "react-native-vector-icons/Ionicons";
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from "@react-navigation/native";
 import { useStore } from "../../store/store";
@@ -50,6 +51,58 @@ export default function Account() {
         { label: 'Visa', value: 1 },
         { label: 'Paypal', value: 2 },
         { label: 'Bank', value: 3 },
+    ]);
+
+    const [openDate, setOpenDate] = useState(false);
+    const [valueDate, setValueDate] = useState(1);
+    const [dateItems, setDateItems] = useState([
+        { label: '01', value: 1 },
+        { label: '02', value: 2 },
+        { label: '03', value: 3 },
+        { label: '04', value: 4 },
+        { label: '05', value: 5 },
+        { label: '06', value: 6 },
+        { label: '07', value: 7 },
+        { label: '08', value: 8 },
+        { label: '09', value: 9 },
+        { label: '10', value: 10 },
+        { label: '11', value: 11 },
+        { label: '12', value: 12 },
+    ]);
+
+    const [openDay, setOpenDay] = useState(false);
+    const [valueDay, setValueDay] = useState(1);
+    const [dayItems, setDayItems] = useState([
+        { label: '01', value: 1 },
+        { label: '02', value: 2 },
+        { label: '03', value: 3 },
+        { label: '04', value: 4 },
+        { label: '05', value: 5 },
+        { label: '06', value: 6 },
+        { label: '07', value: 7 },
+        { label: '08', value: 8 },
+        { label: '09', value: 9 },
+        { label: '10', value: 10 },
+        { label: '11', value: 11 },
+        { label: '12', value: 12 },
+        { label: '13', value: 13 },
+        { label: '14', value: 14 },
+        { label: '15', value: 15 },
+        { label: '16', value: 16 },
+        { label: '17', value: 17 },
+        { label: '18', value: 18 },
+        { label: '19', value: 19 },
+        { label: '20', value: 20 },
+        { label: '21', value: 21 },
+        { label: '22', value: 22 },
+        { label: '23', value: 23 },
+        { label: '24', value: 24 },
+        { label: '25', value: 25 },
+        { label: '26', value: 26 },
+        { label: '27', value: 27 },
+        { label: '28', value: 28 },
+        { label: '29', value: 29 },
+        { label: '30', value: 30 },
     ]);
 
     const drawer = useRef(null);
@@ -592,48 +645,20 @@ export default function Account() {
                 style={{ borderRadius: 20 }}
             >
                 <TopHeader onDrawerToggle={handleDrawerToggle} drawerStatus={drawerStatus} />
-                <View style={[style.main, { backgroundColor: theme.bg, }]}>
-                    <View style={{ flexDirection: "row", justifyContent: "flex-start", marginTop: 10, marginVertical: 10 }}>
-                        <Text style={[{ color: theme.txt, fontSize: 16 }]}>{t('Payment Setup')}</Text>
-                    </View>
-                    <View style={{ marginTop: 5, flexDirection: 'row' }}>
-                        <View style={{ paddingTop: 5, zIndex: 999 }}>
-                            <Text
-                                style={{
-                                    color: theme.txt,
-                                    fontWeight: "500",
-                                    paddingVertical: 10,
-                                    fontFamily: "Plus Jakarta Sans",
-                                }}
-                            >
-                                {'Payment Method (Select)'}
-                            </Text>
-                            <View style={{ zIndex: 999, flex: 1, backgroundColor: theme.bg }}>
-                                <DropDownPicker
-                                    style={{
-                                        backgroundColor: theme.bg,
-                                        borderColor: Colors.bord,
-                                        color: theme.txt,
-                                        height: 50,
-                                        fontFamily: "Plus Jakarta Sans",
-                                    }}
-                                    listMode="SCROLLVIEW"
-                                    open={open}
-                                    value={value}
-                                    items={items}
-                                    setOpen={setOpen}
-                                    setValue={setValue}
-                                    setItems={setItems}
-                                    onChangeValue={(e) => {
-                                        console.log("data", e);
-                                    }}
+                <ScrollView style={{ marginBottom: 60 }}>
+                    <View style={[style.main, { backgroundColor: theme.bg, }]}>
+                        <View style={{ flexDirection: "row", justifyContent: "flex-start", alignItems: 'center', marginTop: 10, marginVertical: 10 }}>
+                            <TouchableOpacity onPress={() => navigation.goBack()}>
+                                <IconIonicons
+                                    name="chevron-back"
+                                    size={16}
+                                    style={{ backgroundColor: theme.itembg }}
                                 />
-                            </View>
+                            </TouchableOpacity>
+                            <Text style={{ paddingLeft: 10, color: theme.txt, fontSize: 16 }}>{'Payment Setup'}</Text>
                         </View>
-                    </View>
-                    <View style={{ marginTop: 50, flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
-                            <View style={{ paddingTop: 5, zIndex: 999, width: 100 }}>
+                        <View style={{ marginTop: 5, flexDirection: 'row' }}>
+                            <View style={{ paddingTop: 5, zIndex: 999 }}>
                                 <Text
                                     style={{
                                         color: theme.txt,
@@ -642,31 +667,8 @@ export default function Account() {
                                         fontFamily: "Plus Jakarta Sans",
                                     }}
                                 >
-                                    {'Expiration date'}
+                                    {'Payment Method (Select)'}
                                 </Text>
-                                <View style={{ zIndex: 999, backgroundColor: theme.bg }}>
-                                    <DropDownPicker
-                                        style={{
-                                            backgroundColor: theme.bg,
-                                            borderColor: Colors.bord,
-                                            color: theme.txt,
-                                            height: 50,
-                                            fontFamily: "Plus Jakarta Sans",
-                                        }}
-                                        listMode="SCROLLVIEW"
-                                        open={open}
-                                        value={value}
-                                        items={items}
-                                        setOpen={setOpen}
-                                        setValue={setValue}
-                                        setItems={setItems}
-                                        onChangeValue={(e) => {
-                                            console.log("data", e);
-                                        }}
-                                    />
-                                </View>
-                            </View>
-                            <View style={{ marginLeft: 10, paddingTop: 45, zIndex: 999, width: 100 }}>
                                 <View style={{ zIndex: 999, flex: 1, backgroundColor: theme.bg }}>
                                     <DropDownPicker
                                         style={{
@@ -690,7 +692,8 @@ export default function Account() {
                                 </View>
                             </View>
                         </View>
-                        <View style={{ paddingTop: 5, width: 100 }}>
+
+                        <View style={{ marginTop: 55, flex: 1 }}>
                             <Text
                                 style={{
                                     color: theme.txt,
@@ -699,130 +702,271 @@ export default function Account() {
                                     fontFamily: "Plus Jakarta Sans",
                                 }}
                             >
-                                {'CVV/CVC'}
+                                {'Card Number'}
                             </Text>
-                            <View style={{ backgroundColor: theme.bg }}>
+                            <View
+                                style={[
+                                    style.txtinput,
+                                    {
+                                        flexDirection: "row",
+                                        justifyContent: "space-between",
+                                        alignItems: "center",
+                                        width: width * 0.7,
+                                    },
+                                ]}
+                            >
                                 <TextInput
-                                    value={'922'}
-                                    inputMode="decimal"
+                                    placeholder={'4255-XXXX-XXXX-9321'}
                                     selectionColor={Colors.primary}
                                     placeholderTextColor={Colors.disable}
-                                    style={[style.txtinput, { backgroundColor: theme.bg, height: 50 }]}
+                                    onChangeText={(e) => setData({ ...data, password: e })}
+                                    style={{
+                                        backgroundColor: theme.bg,
+                                        color: Colors.disable,
+                                        fontFamily: "Plus Jakarta Sans",
+                                    }}
+                                ></TextInput>
+                                <TouchableOpacity
+                                    onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+                                >
+                                    <Image
+                                        source={images.card}
+                                        style={{ width: 30, height: 20 }}
+                                        resizeMode="contain"
+                                    />
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                        <View style={{ marginTop: 50, flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
+                                <View style={{ paddingTop: 5, zIndex: 100, width: 100 }}>
+                                    <Text
+                                        style={{
+                                            color: theme.txt,
+                                            fontWeight: "500",
+                                            paddingVertical: 10,
+                                            fontFamily: "Plus Jakarta Sans",
+                                        }}
+                                    >
+                                        {'Expiration date'}
+                                    </Text>
+                                    <View style={{ zIndex: 100, backgroundColor: theme.bg }}>
+                                        <DropDownPicker
+                                            style={{
+                                                backgroundColor: theme.bg,
+                                                borderColor: Colors.bord,
+                                                color: theme.txt,
+                                                height: 50,
+                                                fontFamily: "Plus Jakarta Sans",
+                                            }}
+                                            listMode="MODAL"
+                                            open={openDate}
+                                            value={valueDate}
+                                            items={dateItems}
+                                            setOpen={setOpenDate}
+                                            setValue={setValueDate}
+                                            setItems={setDateItems}
+                                            onChangeValue={(e) => {
+                                                console.log("data", e);
+                                            }}
+                                        />
+                                    </View>
+                                </View>
+                                <View style={{ marginLeft: 10, paddingTop: 45, zIndex: 100, width: 100 }}>
+                                    <View style={{ zIndex: 100, flex: 1, backgroundColor: theme.bg }}>
+                                        <DropDownPicker
+                                            style={{
+                                                backgroundColor: theme.bg,
+                                                borderColor: Colors.bord,
+                                                color: theme.txt,
+                                                height: 50,
+                                                fontFamily: "Plus Jakarta Sans",
+                                            }}
+                                            listMode="MODAL"
+                                            open={openDay}
+                                            value={valueDay}
+                                            items={dayItems}
+                                            setOpen={setOpenDay}
+                                            setValue={setValueDay}
+                                            setItems={setDayItems}
+                                            onChangeValue={(e) => {
+                                                console.log("data", e);
+                                            }}
+                                        />
+                                    </View>
+                                </View>
+                            </View>
+                            <View style={{ paddingTop: 5, width: 100 }}>
+                                <Text
+                                    style={{
+                                        color: theme.txt,
+                                        fontWeight: "500",
+                                        paddingVertical: 10,
+                                        fontFamily: "Plus Jakarta Sans",
+                                    }}
+                                >
+                                    {'CVV/CVC'}
+                                </Text>
+                                <View style={{ backgroundColor: theme.bg }}>
+                                    <TextInput
+                                        value={'922'}
+                                        inputMode="decimal"
+                                        selectionColor={Colors.primary}
+                                        placeholderTextColor={Colors.disable}
+                                        style={[style.txtinput, { backgroundColor: theme.bg, height: 50 }]}
+                                    />
+                                </View>
+                            </View>
+                        </View>
+                        <View style={{ paddingTop: 15 }}>
+                            <Text
+                                style={{
+                                    color: theme.txt,
+                                    fontWeight: "500",
+                                    fontFamily: "Plus Jakarta Sans",
+                                }}
+                            >
+                                {'Security code'}
+                            </Text>
+                            <View style={{ paddingTop: 8 }}>
+                                <TextInput
+                                    selectionColor={Colors.primary}
+                                    placeholderTextColor={Colors.disable}
+                                    style={[style.txtinput, { backgroundColor: theme.bg, width: width * 0.6 }]}
                                 />
                             </View>
                         </View>
-                    </View>
-                    <View style={{ paddingTop: 15 }}>
-                        <Text
-                            style={{
-                                color: theme.txt,
-                                fontWeight: "500",
-                                fontFamily: "Plus Jakarta Sans",
-                            }}
-                        >
-                            {'Security code'}
-                        </Text>
-                        <View style={{ paddingTop: 8 }}>
-                            <TextInput
-                                selectionColor={Colors.primary}
-                                placeholderTextColor={Colors.disable}
-                                style={[style.txtinput, { backgroundColor: theme.bg, width: width * 0.6 }]}
-                            />
+                        <View style={{ paddingTop: 15 }}>
+                            <Text
+                                style={{
+                                    color: theme.txt,
+                                    fontWeight: "500",
+                                    fontFamily: "Plus Jakarta Sans",
+                                }}
+                            >
+                                {'Card holder name'}
+                            </Text>
+                            <View style={{ paddingTop: 8 }}>
+                                <TextInput
+                                    selectionColor={Colors.primary}
+                                    placeholderTextColor={Colors.disable}
+                                    style={[style.txtinput, { backgroundColor: theme.bg, width: width * 0.6 }]}
+                                />
+                            </View>
                         </View>
-                    </View>
-                    <View style={{ paddingTop: 15 }}>
-                        <Text
-                            style={{
-                                color: theme.txt,
-                                fontWeight: "500",
-                                fontFamily: "Plus Jakarta Sans",
-                            }}
-                        >
-                            {'Card holder name'}
-                        </Text>
-                        <View style={{ paddingTop: 8 }}>
-                            <TextInput
-                                selectionColor={Colors.primary}
-                                placeholderTextColor={Colors.disable}
-                                style={[style.txtinput, { backgroundColor: theme.bg, width: width * 0.6 }]}
-                            />
-                        </View>
-                    </View>
-                    
-                    <View
-                        style={{
-                            flex: 1,
-                            flexDirection: "row",
-                            alignItems: "center",
-                            flexWrap: "wrap",
-                            paddingTop: 10,
-                        }}
-                    >
-                        <CheckBox
-                            style={{ borderWidth: 5 }}
-                            checkBoxSize={25}
-                            checkColor={Colors.btn}
-                            squareCheckBox={true}
-                            onToggle={(e) => {
-                                if (!e) {
-                                    setCheck(true);
-                                } else {
-                                    setCheck(false);
-                                }
-                            }}
-                        />
-                        <Text
-                            style={{
-                                color: theme.txt,
-                                fontWeight: 700,
-                                paddingTop: 18,
-                                lineHeight: 5,
-                                fontSize: 16,
-                                fontFamily: "Plus Jakarta Sans",
-                                paddingLeft: 4,
-                            }}
-                        >
-                            {'Save payment method'}
-                        </Text>
-                    </View>
-                    <View
-                        style={{
-                            flex: 1,
-                            flexDirection: "row",
-                            alignItems: "center",
-                            flexWrap: "wrap",
-                            paddingTop: 10,
-                        }}
-                    >
-                        <CheckBox
-                            style={{ borderWidth: 5 }}
-                            checkBoxSize={25}
-                            checkColor={Colors.btn}
-                            squareCheckBox={true}
-                            onToggle={(e) => {
-                                if (!e) {
-                                    setCheck(true);
-                                } else {
-                                    setCheck(false);
-                                }
-                            }}
-                        />
-                        <Text
-                            style={{
-                                color: theme.txt,
-                                fontWeight: 700,
-                                paddingTop: 18,
-                                lineHeight: 5,
-                                fontSize: 16,
-                                fontFamily: "Plus Jakarta Sans",
-                                paddingLeft: 4,
-                            }}
-                        >
-                            {'Make Default'}
-                        </Text>
-                    </View>
 
-                </View>
+                        <View
+                            style={{
+                                flex: 1,
+                                flexDirection: "row",
+                                alignItems: "center",
+                                flexWrap: "wrap",
+                                paddingTop: 10,
+                            }}
+                        >
+                            <CheckBox
+                                style={{ borderWidth: 5 }}
+                                checkBoxSize={25}
+                                checkColor={Colors.btn}
+                                squareCheckBox={true}
+                                onToggle={(e) => {
+                                    if (!e) {
+                                        setCheck(true);
+                                    } else {
+                                        setCheck(false);
+                                    }
+                                }}
+                            />
+                            <Text
+                                style={{
+                                    color: theme.txt,
+                                    paddingTop: 18,
+                                    lineHeight: 5,
+                                    fontSize: 16,
+                                    fontFamily: "Plus Jakarta Sans",
+                                    paddingLeft: 4,
+                                }}
+                            >
+                                {'Save payment method'}
+                            </Text>
+                        </View>
+                        <View
+                            style={{
+                                flex: 1,
+                                flexDirection: "row",
+                                alignItems: "center",
+                                flexWrap: "wrap",
+                                paddingTop: 10,
+                            }}
+                        >
+                            <CheckBox
+                                style={{ borderWidth: 5 }}
+                                checkBoxSize={25}
+                                checkColor={Colors.btn}
+                                squareCheckBox={true}
+                                onToggle={(e) => {
+                                    if (!e) {
+                                        setCheck(true);
+                                    } else {
+                                        setCheck(false);
+                                    }
+                                }}
+                            />
+                            <Text
+                                style={{
+                                    color: theme.txt,
+                                    paddingTop: 18,
+                                    lineHeight: 5,
+                                    fontSize: 16,
+                                    fontFamily: "Plus Jakarta Sans",
+                                    paddingLeft: 4,
+                                }}
+                            >
+                                {'Make Default'}
+                            </Text>
+                        </View>
+                        <View style={[style.row, { justifyContent: 'flex-end' }]}>
+                            <TouchableOpacity
+                                style={{ backgroundColor: Colors.bord, marginBottom: 5, borderRadius: 5 }}
+                            >
+                                <Text
+                                    style={{
+                                        color: Colors.disable,
+                                        fontFamily: "Plus Jakarta Sans",
+                                        fontSize: 14,
+                                        padding: 10,
+                                        paddingHorizontal: 15,
+                                        alignItems: 'center'
+                                    }}>
+                                    {'Cancel'}
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{ paddingLeft: 10 }}>
+                                <LinearGradient
+                                    colors={['#0A8ED9', '#A0DAFB']}
+                                    start={{ x: 0.5, y: 0.5 }}
+                                    end={{ x: 0.5, y: 0 }}
+                                    style={{
+                                        backgroundColor: Colors.active,
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        borderRadius: 5
+                                    }}>
+                                    <Text
+                                        style={{
+                                            color: Colors.secondary,
+                                            fontFamily: "Plus Jakarta Sans",
+                                            fontSize: 14,
+                                            padding: 10,
+                                            paddingHorizontal: 15,
+                                            alignItems: 'center'
+                                        }}
+                                    >{'Save'}</Text>
+                                </LinearGradient>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </ScrollView>
             </DrawerLayoutAndroid>
         </SafeAreaView>
     );

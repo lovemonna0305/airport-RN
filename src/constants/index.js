@@ -73,4 +73,6 @@ export const images = {
   setting: require("../../assets/img/setting.png"),
   share: require("../../assets/img/share.png"),
   terms: require("../../assets/img/terms.png"),
+  map: require("../../assets/img/map.png"),
+  card: require("../../assets/img/card.png"),
 }

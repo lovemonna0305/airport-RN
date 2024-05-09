@@ -20,6 +20,7 @@ import themeContext from "../../theme/themeContex";
 import { Colors } from "../../theme/color";
 import Icons from "react-native-vector-icons/MaterialCommunityIcons";
 import IconMaterial from "react-native-vector-icons/MaterialIcons";
+import IconIonicons from "react-native-vector-icons/Ionicons";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from "@react-navigation/native";
@@ -185,10 +186,33 @@ export default function Services() {
                     <Header />
                     {/* <StatusBar translucent={true} backgroundColor="transparent" /> */}
                     <View style={[style.main, { backgroundColor: theme.bg, }]}>
-                        <View style={{ flexDirection: "row", justifyContent: "flex-start", marginTop: 10, marginVertical: 10 }}>
-                            <Text style={[{ color: theme.txt, fontSize: 16 }]}>{t('Interactive Airport Map')}</Text>
+                        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: 'center', marginTop: 10, marginVertical: 10 }}>
+                            <TouchableOpacity onPress={() => navigation.goBack()}>
+                                <IconIonicons
+                                    name="chevron-back"
+                                    size={16}
+                                    style={{ backgroundColor: theme.itembg }}
+                                />
+                            </TouchableOpacity>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <Image
+                                    source={images.parking}
+                                    style={{ width: 20, height: 20, borderRadius: 5 }}
+                                />
+                                <Text style={{ color: theme.txt, fontSize: 16 }}>{'Parking'}</Text>
+                            </View>
+                            <TouchableOpacity onPress={() => navigation.goBack()}>
+                                <IconIonicons
+                                    name="chevron-forward"
+                                    size={16}
+                                    style={{ backgroundColor: theme.itembg }}
+                                />
+                            </TouchableOpacity>
                         </View>
 
+                        <View style={{ flexDirection: "row", justifyContent: "flex-start", marginTop: 10, marginVertical: 10 }}>
+                            <Text style={[{ color: theme.txt, fontSize: 16 }]}>{t('Book Parking Online to Guaarantee your Spot')}</Text>
+                        </View>
 
                         <View style={{ marginTop: 5, height: height * 0.5, backgroundColor: theme.itembg, borderRadius: 10 }}>
 
@@ -386,9 +410,6 @@ export default function Services() {
                                     >{'Get Quote'}</Text>
                                 </LinearGradient>
                             </View>
-
-
-
 
                         </View>
 

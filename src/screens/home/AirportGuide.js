@@ -143,7 +143,7 @@ export default function AirportGuide() {
             >
                 <ScrollView style={{ marginBottom: 50 }}>
                     <TopHeader onDrawerToggle={handleDrawerToggle} drawerStatus={drawerStatus} />
-                    <Header/>
+                    <Header />
                     {/* <StatusBar translucent={true} backgroundColor="transparent" /> */}
                     <View style={[style.main, { backgroundColor: theme.bg, }]}>
                         <View style={{ flexDirection: "row", justifyContent: "flex-start", marginTop: 10, marginVertical: 10 }}>
@@ -153,7 +153,7 @@ export default function AirportGuide() {
                         <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
 
                             <View style={{ paddingTop: 20 }}>
-                                <TouchableOpacity style={{ width: 40, }}>
+                                <TouchableOpacity style={{ width: 35, }}>
                                     <LinearGradient
                                         colors={['#0A8ED9', '#A0DAFB']}
                                         start={{ x: 0.5, y: 0.5 }}
@@ -167,14 +167,14 @@ export default function AirportGuide() {
                                         <IconMaterial
                                             name="zoom-in"
                                             color={Colors.secondary}
-                                            size={30}
+                                            size={25}
                                             style={{ padding: 5 }}
                                         />
                                     </LinearGradient>
                                 </TouchableOpacity>
                             </View>
                             <View style={{ paddingTop: 20 }}>
-                                <TouchableOpacity style={{ width: 40, }}>
+                                <TouchableOpacity style={{ width: 35, }}>
                                     <LinearGradient
                                         colors={['#0A8ED9', '#A0DAFB']}
                                         start={{ x: 0.5, y: 0.5 }}
@@ -188,7 +188,7 @@ export default function AirportGuide() {
                                         <IconMaterial
                                             name="zoom-out"
                                             color={Colors.secondary}
-                                            size={30}
+                                            size={25}
                                             style={{ padding: 5 }}
                                         />
                                     </LinearGradient>
@@ -237,10 +237,13 @@ export default function AirportGuide() {
                         </View>
 
                         <View style={{ marginTop: 5, height: height * 0.25, flexDirection: 'row', backgroundColor: theme.itembg, borderRadius: 10 }}>
-
+                            <Image
+                                source={images.map}
+                                style={{ flex: 1 }}
+                                resizeMode="stretch"
+                            />
                         </View>
-
-                        <View style={{ flexDirection: "row", justifyContent: "flex-start", marginTop: 10, marginVertical: 10 }}>
+                        <View style={{ flexDirection: "row", justifyContent: "flex-start", marginTop: 35, marginVertical: 10 }}>
                             <Text style={[{ color: theme.txt, fontSize: 16 }]}>{t('Directory of Airport Amenities')}</Text>
                         </View>
 
@@ -257,9 +260,9 @@ export default function AirportGuide() {
 
                                 </View>
                                 <View>
-                                    <TouchableOpacity 
-                                        onPress={()=>navigation.navigate('lounges')}
-                                    style={{ width: 100, alignSelf: 'flex-end', padding: 10 }}>
+                                    <TouchableOpacity
+                                        onPress={() => navigation.navigate('lounges')}
+                                        style={{ width: 100, alignSelf: 'flex-end', padding: 10 }}>
                                         <LinearGradient
                                             colors={['#0A8ED9', '#A0DAFB']}
                                             start={{ x: 0.5, y: 0.5 }}
