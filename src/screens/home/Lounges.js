@@ -74,27 +74,27 @@ export default function Lounges() {
 
 
 
-    const [focused, setForcused] = useState("all");
+    const [switchfocused, setSwitchForcused] = useState("all");
 
     useEffect(() => {
-        setForcused('all');
+        setSwitchForcused('all');
     }, [])
 
-    const goto = (name) => {
-        setForcused(name);
+    const gotoswitch = (name) => {
+        setSwitchForcused(name);
     }
 
     const renderItem = ({ item, index }) => {
 
         return (
-            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
+            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-start', marginBottom: 10 }}>
                 <Image
                     source={images.item}
-                    style={{ width: 100, height: 100, borderRadius: 10 }}
+                    style={{ width: 100, height: 100, borderRadius: 10, marginRight: 20 }}
                 />
-                <View style={{ paddingLeft: 2 }}>
-                    <View style={{ flex: 1, flexDirection: 'row', borderBottomWidth: 0.3 }}>
-                        <View style={{ marginRight: 5 }}>
+                <View style={{ paddingLeft: 2, width:width*0.6}}>
+                    <View style={{ flex: 1, flexDirection: 'row', borderBottomWidth: 0.3,  }}>
+                        <View style={{ marginRight: 5,width:width*0.5 }}>
                             <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
                                 <Icons
                                     name="airplane-outline"
@@ -215,72 +215,517 @@ export default function Lounges() {
         );
     };
 
-    // useEffect(() => {
-    //     console.log(drawerStatus);
-    // }, [drawerStatus])
+    const [focused, setForcused] = useState("home");
+    useEffect(() => {
+        setForcused(store.page);
+    }, [])
+
+    const goto = (name) => {
+        changeStore({ ...store, page: name });
+        setForcused(name);
+        navigation.replace(name);
+    }
+
 
     const navigationView = () => (
-        <View style={[{ backgroundColor: Colors.active, borderTopRightRadius: 20, borderBottomRightRadius: 20 }]}>
+        <View style={[{ flex: 1, backgroundColor: Colors.active }]}>
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 style={{ marginTop: 30 }}>
 
-                <TouchableOpacity
-                    style={{ flex: 1, flexDirection: 'row', marginBottom: 20, paddingLeft: 20, backgroundColor: Colors.secondary, paddingVertical: 10, width: 250, borderTopRightRadius: 20, borderBottomRightRadius: 20 }}
-                    onPress={() => navigation.navigate('home')}>
-                    <View style={{ justifyContent: 'center', }}>
-                        <Icon
-                            name="home"
-                            color={Colors.active}
-                            size={16}
-                        ></Icon>
-
-                    </View>
-                    <View style={{ justifyContent: 'center', paddingLeft: 15 }}>
-                        <Text
-                            style={{
-                                color: Colors.active,
-                                fontSize: 16
-                            }}>{'Home'}</Text>
-                    </View>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                    style={{ flex: 1, flexDirection: 'row', marginBottom: 20, paddingLeft: 20, }}
-                    onPress={() => navigation.navigate('home')}>
-                    <View style={{ justifyContent: 'center', }}>
-                        <Icon
-                            name="home"
-                            color={Colors.secondary}
-                            size={16}
-                        ></Icon>
-
-                    </View>
-                    <View style={{ justifyContent: 'center', paddingLeft: 15 }}>
-                        <Text
-                            style={{
-                                color: Colors.secondary,
-                                fontSize: 16
-                            }}>{'Home'}</Text>
-                    </View>
-                </TouchableOpacity>
-
-                <View style={{ marginBottom: 70 }}>
+                {focused.includes("home") ?
                     <TouchableOpacity
-                        onPress={() => setVisible(true)}
-                        style={[
-                            style.btn1,
-                            {
-                                borderColor: Colors.btn,
-                                borderWidth: 1,
-                                backgroundColor: theme.bg,
-                            },
-                        ]}>
-                        <Text style={[style.btntxt1, { color: Colors.btn }]}>
-                            {t("logout")}
-                        </Text>
+                        style={{ flex: 1, flexDirection: 'row', marginBottom: 20, paddingLeft: 20, backgroundColor: Colors.secondary, paddingVertical: 10, width: 250, borderTopRightRadius: 20, borderBottomRightRadius: 20 }}
+                        onPress={() => goto('home')}>
+                        <View style={{ justifyContent: 'center', }}>
+                            <Icon
+                                name="home"
+                                color={Colors.active}
+                                size={16}
+                            ></Icon>
+
+                        </View>
+                        <View style={{ justifyContent: 'center', paddingLeft: 15 }}>
+                            <Text
+                                style={{
+                                    color: Colors.active,
+                                    fontSize: 16
+                                }}>{'Home'}</Text>
+                        </View>
                     </TouchableOpacity>
-                </View>
+                    :
+                    <TouchableOpacity
+                        style={{ flex: 1, flexDirection: 'row', marginBottom: 20, paddingLeft: 20, }}
+                        onPress={() => goto('home')}>
+                        <View style={{ justifyContent: 'center', }}>
+                            <Icon
+                                name="home"
+                                color={Colors.secondary}
+                                size={16}
+                            ></Icon>
+
+                        </View>
+                        <View style={{ justifyContent: 'center', paddingLeft: 15 }}>
+                            <Text
+                                style={{
+                                    color: Colors.secondary,
+                                    fontSize: 16
+                                }}>{'Home'}</Text>
+                        </View>
+                    </TouchableOpacity>
+                }
+                {focused.includes("account") ?
+                    <TouchableOpacity
+                        style={{ flex: 1, flexDirection: 'row', marginBottom: 20, paddingLeft: 20, backgroundColor: Colors.secondary, paddingVertical: 10, width: 250, borderTopRightRadius: 20, borderBottomRightRadius: 20 }}
+                        onPress={() => goto('account')}>
+                        <View style={{ justifyContent: 'center', }}>
+                            <Image
+                                source={images.account}
+                                resizeMode="contain"
+                                style={{ width: 16, height: 16, tintColor: Colors.active }}
+                            />
+                        </View>
+                        <View style={{ justifyContent: 'center', paddingLeft: 15 }}>
+                            <Text
+                                style={{
+                                    color: Colors.active,
+                                    fontSize: 16
+                                }}>{'Account'}</Text>
+                        </View>
+                    </TouchableOpacity>
+                    :
+                    <TouchableOpacity
+                        style={{ flex: 1, flexDirection: 'row', marginBottom: 20, paddingLeft: 20, }}
+                        onPress={() => goto('account')}>
+                        <View style={{ justifyContent: 'center', }}>
+
+                            <Image
+                                source={images.account}
+                                resizeMode="contain"
+                                style={{ width: 16, height: 16, tintColor: Colors.secondary }}
+                            />
+
+                        </View>
+                        <View style={{ justifyContent: 'center', paddingLeft: 15 }}>
+                            <Text
+                                style={{
+                                    color: Colors.secondary,
+                                    fontSize: 16
+                                }}>{'Account'}</Text>
+                        </View>
+                    </TouchableOpacity>
+                }
+                {focused.includes("feedback") ?
+                    <TouchableOpacity
+                        style={{ flex: 1, flexDirection: 'row', marginBottom: 20, paddingLeft: 20, backgroundColor: Colors.secondary, paddingVertical: 10, width: 250, borderTopRightRadius: 20, borderBottomRightRadius: 20 }}
+                        onPress={() => goto('feedback')}>
+                        <View style={{ justifyContent: 'center', }}>
+                            <Image
+                                source={images.feedback}
+                                resizeMode="contain"
+                                style={{ width: 16, height: 16, tintColor: Colors.active }}
+                            />
+                        </View>
+                        <View style={{ justifyContent: 'center', paddingLeft: 15 }}>
+                            <Text
+                                style={{
+                                    color: Colors.active,
+                                    fontSize: 16
+                                }}>{'feedback'}</Text>
+                        </View>
+                    </TouchableOpacity>
+                    :
+                    <TouchableOpacity
+                        style={{ flex: 1, flexDirection: 'row', marginBottom: 20, paddingLeft: 20, }}
+                        onPress={() => goto('feedback')}>
+                        <View style={{ justifyContent: 'center', }}>
+
+                            <Image
+                                source={images.feedback}
+                                resizeMode="contain"
+                                style={{ width: 16, height: 16, tintColor: Colors.secondary }}
+                            />
+
+                        </View>
+                        <View style={{ justifyContent: 'center', paddingLeft: 15 }}>
+                            <Text
+                                style={{
+                                    color: Colors.secondary,
+                                    fontSize: 16
+                                }}>{'feedback'}</Text>
+                        </View>
+                    </TouchableOpacity>
+                }
+
+                {focused.includes("share") ?
+                    <TouchableOpacity
+                        style={{ flex: 1, flexDirection: 'row', marginBottom: 20, paddingLeft: 20, backgroundColor: Colors.secondary, paddingVertical: 10, width: 250, borderTopRightRadius: 20, borderBottomRightRadius: 20 }}
+                        onPress={() => goto('share')}>
+                        <View style={{ justifyContent: 'center', }}>
+                            <Image
+                                source={images.share}
+                                resizeMode="contain"
+                                style={{ width: 16, height: 16, tintColor: Colors.active }}
+                            />
+                        </View>
+                        <View style={{ justifyContent: 'center', paddingLeft: 15 }}>
+                            <Text
+                                style={{
+                                    color: Colors.active,
+                                    fontSize: 16
+                                }}>{'share'}</Text>
+                        </View>
+                    </TouchableOpacity>
+                    :
+                    <TouchableOpacity
+                        style={{ flex: 1, flexDirection: 'row', marginBottom: 20, paddingLeft: 20, }}
+                        onPress={() => goto('share')}>
+                        <View style={{ justifyContent: 'center', }}>
+
+                            <Image
+                                source={images.share}
+                                resizeMode="contain"
+                                style={{ width: 16, height: 16, tintColor: Colors.secondary }}
+                            />
+
+                        </View>
+                        <View style={{ justifyContent: 'center', paddingLeft: 15 }}>
+                            <Text
+                                style={{
+                                    color: Colors.secondary,
+                                    fontSize: 16
+                                }}>{'share'}</Text>
+                        </View>
+                    </TouchableOpacity>
+                }
+                {focused.includes("favorite") ?
+                    <TouchableOpacity
+                        style={{ flex: 1, flexDirection: 'row', marginBottom: 20, paddingLeft: 20, backgroundColor: Colors.secondary, paddingVertical: 10, width: 250, borderTopRightRadius: 20, borderBottomRightRadius: 20 }}
+                        onPress={() => goto('favorite')}>
+                        <View style={{ justifyContent: 'center', }}>
+                            <Image
+                                source={images.favorite}
+                                resizeMode="contain"
+                                style={{ width: 16, height: 16, tintColor: Colors.active }}
+                            />
+                        </View>
+                        <View style={{ justifyContent: 'center', paddingLeft: 15 }}>
+                            <Text
+                                style={{
+                                    color: Colors.active,
+                                    fontSize: 16
+                                }}>{'favorite'}</Text>
+                        </View>
+                    </TouchableOpacity>
+                    :
+                    <TouchableOpacity
+                        style={{ flex: 1, flexDirection: 'row', marginBottom: 20, paddingLeft: 20, }}
+                        onPress={() => goto('favorite')}>
+                        <View style={{ justifyContent: 'center', }}>
+
+                            <Image
+                                source={images.favorite}
+                                resizeMode="contain"
+                                style={{ width: 16, height: 16, tintColor: Colors.secondary }}
+                            />
+
+                        </View>
+                        <View style={{ justifyContent: 'center', paddingLeft: 15 }}>
+                            <Text
+                                style={{
+                                    color: Colors.secondary,
+                                    fontSize: 16
+                                }}>{'favorite'}</Text>
+                        </View>
+                    </TouchableOpacity>
+                }
+                {focused.includes("terms") ?
+                    <TouchableOpacity
+                        style={{ flex: 1, flexDirection: 'row', marginBottom: 20, paddingLeft: 20, backgroundColor: Colors.secondary, paddingVertical: 10, width: 250, borderTopRightRadius: 20, borderBottomRightRadius: 20 }}
+                        onPress={() => goto('terms')}>
+                        <View style={{ justifyContent: 'center', }}>
+                            <Image
+                                source={images.terms}
+                                resizeMode="contain"
+                                style={{ width: 16, height: 16, tintColor: Colors.active }}
+                            />
+                        </View>
+                        <View style={{ justifyContent: 'center', paddingLeft: 15 }}>
+                            <Text
+                                style={{
+                                    color: Colors.active,
+                                    fontSize: 16
+                                }}>{'Terms & Conditions'}</Text>
+                        </View>
+                    </TouchableOpacity>
+                    :
+                    <TouchableOpacity
+                        style={{ flex: 1, flexDirection: 'row', marginBottom: 20, paddingLeft: 20, }}
+                        onPress={() => goto('terms')}>
+                        <View style={{ justifyContent: 'center', }}>
+
+                            <Image
+                                source={images.terms}
+                                resizeMode="contain"
+                                style={{ width: 16, height: 16, tintColor: Colors.secondary }}
+                            />
+
+                        </View>
+                        <View style={{ justifyContent: 'center', paddingLeft: 15 }}>
+                            <Text
+                                style={{
+                                    color: Colors.secondary,
+                                    fontSize: 16
+                                }}>{'Terms & Conditions'}</Text>
+                        </View>
+                    </TouchableOpacity>
+                }
+                {focused.includes("privacy") ?
+                    <TouchableOpacity
+                        style={{ flex: 1, flexDirection: 'row', marginBottom: 20, paddingLeft: 20, backgroundColor: Colors.secondary, paddingVertical: 10, width: 250, borderTopRightRadius: 20, borderBottomRightRadius: 20 }}
+                        onPress={() => goto('privacy')}>
+                        <View style={{ justifyContent: 'center', }}>
+                            <Image
+                                source={images.privacy}
+                                resizeMode="contain"
+                                style={{ width: 16, height: 16, tintColor: Colors.active }}
+                            />
+                        </View>
+                        <View style={{ justifyContent: 'center', paddingLeft: 15 }}>
+                            <Text
+                                style={{
+                                    color: Colors.active,
+                                    fontSize: 16
+                                }}>{'Privacy Policy'}</Text>
+                        </View>
+                    </TouchableOpacity>
+                    :
+                    <TouchableOpacity
+                        style={{ flex: 1, flexDirection: 'row', marginBottom: 20, paddingLeft: 20, }}
+                        onPress={() => goto('privacy')}>
+                        <View style={{ justifyContent: 'center', }}>
+
+                            <Image
+                                source={images.privacy}
+                                resizeMode="contain"
+                                style={{ width: 16, height: 16, tintColor: Colors.secondary }}
+                            />
+
+                        </View>
+                        <View style={{ justifyContent: 'center', paddingLeft: 15 }}>
+                            <Text
+                                style={{
+                                    color: Colors.secondary,
+                                    fontSize: 16
+                                }}>{'Privacy Policy'}</Text>
+                        </View>
+                    </TouchableOpacity>
+                }
+                {focused.includes("aboutus") ?
+                    <TouchableOpacity
+                        style={{ flex: 1, flexDirection: 'row', marginBottom: 20, paddingLeft: 20, backgroundColor: Colors.secondary, paddingVertical: 10, width: 250, borderTopRightRadius: 20, borderBottomRightRadius: 20 }}
+                        onPress={() => goto('aboutus')}>
+                        <View style={{ justifyContent: 'center', }}>
+                            <Image
+                                source={images.aboutus}
+                                resizeMode="contain"
+                                style={{ width: 16, height: 16, tintColor: Colors.active }}
+                            />
+                        </View>
+                        <View style={{ justifyContent: 'center', paddingLeft: 15 }}>
+                            <Text
+                                style={{
+                                    color: Colors.active,
+                                    fontSize: 16
+                                }}>{'About Us'}</Text>
+                        </View>
+                    </TouchableOpacity>
+                    :
+                    <TouchableOpacity
+                        style={{ flex: 1, flexDirection: 'row', marginBottom: 20, paddingLeft: 20, }}
+                        onPress={() => goto('aboutus')}>
+                        <View style={{ justifyContent: 'center', }}>
+
+                            <Image
+                                source={images.aboutus}
+                                resizeMode="contain"
+                                style={{ width: 16, height: 16, tintColor: Colors.secondary }}
+                            />
+
+                        </View>
+                        <View style={{ justifyContent: 'center', paddingLeft: 15 }}>
+                            <Text
+                                style={{
+                                    color: Colors.secondary,
+                                    fontSize: 16
+                                }}>{'About Us'}</Text>
+                        </View>
+                    </TouchableOpacity>
+                }
+                {focused.includes("contactus") ?
+                    <TouchableOpacity
+                        style={{ flex: 1, flexDirection: 'row', marginBottom: 20, paddingLeft: 20, backgroundColor: Colors.secondary, paddingVertical: 10, width: 250, borderTopRightRadius: 20, borderBottomRightRadius: 20 }}
+                        onPress={() => goto('contactus')}>
+                        <View style={{ justifyContent: 'center', }}>
+                            <Image
+                                source={images.contactus}
+                                resizeMode="contain"
+                                style={{ width: 16, height: 16, tintColor: Colors.active }}
+                            />
+                        </View>
+                        <View style={{ justifyContent: 'center', paddingLeft: 15 }}>
+                            <Text
+                                style={{
+                                    color: Colors.active,
+                                    fontSize: 16
+                                }}>{'Contact Us'}</Text>
+                        </View>
+                    </TouchableOpacity>
+                    :
+                    <TouchableOpacity
+                        style={{ flex: 1, flexDirection: 'row', marginBottom: 20, paddingLeft: 20, }}
+                        onPress={() => goto('contactus')}>
+                        <View style={{ justifyContent: 'center', }}>
+
+                            <Image
+                                source={images.contactus}
+                                resizeMode="contain"
+                                style={{ width: 16, height: 16, tintColor: Colors.secondary }}
+                            />
+
+                        </View>
+                        <View style={{ justifyContent: 'center', paddingLeft: 15 }}>
+                            <Text
+                                style={{
+                                    color: Colors.secondary,
+                                    fontSize: 16
+                                }}>{'Contact Us'}</Text>
+                        </View>
+                    </TouchableOpacity>
+                }
+                {focused.includes("help") ?
+                    <TouchableOpacity
+                        style={{ flex: 1, flexDirection: 'row', marginBottom: 20, paddingLeft: 20, backgroundColor: Colors.secondary, paddingVertical: 10, width: 250, borderTopRightRadius: 20, borderBottomRightRadius: 20 }}
+                        onPress={() => goto('help')}>
+                        <View style={{ justifyContent: 'center', }}>
+                            <Image
+                                source={images.help}
+                                resizeMode="contain"
+                                style={{ width: 16, height: 16, tintColor: Colors.active }}
+                            />
+                        </View>
+                        <View style={{ justifyContent: 'center', paddingLeft: 15 }}>
+                            <Text
+                                style={{
+                                    color: Colors.active,
+                                    fontSize: 16
+                                }}>{'Help/Support'}</Text>
+                        </View>
+                    </TouchableOpacity>
+                    :
+                    <TouchableOpacity
+                        style={{ flex: 1, flexDirection: 'row', marginBottom: 20, paddingLeft: 20, }}
+                        onPress={() => goto('help')}>
+                        <View style={{ justifyContent: 'center', }}>
+
+                            <Image
+                                source={images.help}
+                                resizeMode="contain"
+                                style={{ width: 16, height: 16, tintColor: Colors.secondary }}
+                            />
+
+                        </View>
+                        <View style={{ justifyContent: 'center', paddingLeft: 15 }}>
+                            <Text
+                                style={{
+                                    color: Colors.secondary,
+                                    fontSize: 16
+                                }}>{'Help/Support'}</Text>
+                        </View>
+                    </TouchableOpacity>
+                }
+                {focused.includes("setting") ?
+                    <TouchableOpacity
+                        style={{ flex: 1, flexDirection: 'row', marginBottom: 20, paddingLeft: 20, backgroundColor: Colors.secondary, paddingVertical: 10, width: 250, borderTopRightRadius: 20, borderBottomRightRadius: 20 }}
+                        onPress={() => goto('setting')}>
+                        <View style={{ justifyContent: 'center', }}>
+                            <Image
+                                source={images.setting}
+                                resizeMode="contain"
+                                style={{ width: 16, height: 16, tintColor: Colors.active }}
+                            />
+                        </View>
+                        <View style={{ justifyContent: 'center', paddingLeft: 15 }}>
+                            <Text
+                                style={{
+                                    color: Colors.active,
+                                    fontSize: 16
+                                }}>{'Setting'}</Text>
+                        </View>
+                    </TouchableOpacity>
+                    :
+                    <TouchableOpacity
+                        style={{ flex: 1, flexDirection: 'row', marginBottom: 20, paddingLeft: 20, }}
+                        onPress={() => goto('setting')}>
+                        <View style={{ justifyContent: 'center', }}>
+
+                            <Image
+                                source={images.setting}
+                                resizeMode="contain"
+                                style={{ width: 16, height: 16, tintColor: Colors.secondary }}
+                            />
+
+                        </View>
+                        <View style={{ justifyContent: 'center', paddingLeft: 15 }}>
+                            <Text
+                                style={{
+                                    color: Colors.secondary,
+                                    fontSize: 16
+                                }}>{'Setting'}</Text>
+                        </View>
+                    </TouchableOpacity>
+                }
+                {focused.includes("logout") ?
+                    <TouchableOpacity
+                        style={{ flex: 1, flexDirection: 'row', marginBottom: 20, paddingLeft: 20, backgroundColor: Colors.secondary, paddingVertical: 10, width: 250, borderTopRightRadius: 20, borderBottomRightRadius: 20 }}
+                        onPress={() => goto('logout')}>
+                        <View style={{ justifyContent: 'center', }}>
+                            <Image
+                                source={images.logout}
+                                resizeMode="contain"
+                                style={{ width: 16, height: 16, tintColor: Colors.active }}
+                            />
+                        </View>
+                        <View style={{ justifyContent: 'center', paddingLeft: 15 }}>
+                            <Text
+                                style={{
+                                    color: Colors.active,
+                                    fontSize: 16
+                                }}>{'Logout'}</Text>
+                        </View>
+                    </TouchableOpacity>
+                    :
+                    <TouchableOpacity
+                        style={{ flex: 1, flexDirection: 'row', marginBottom: 20, paddingLeft: 20, }}
+                        onPress={() => goto('logout')}>
+                        <View style={{ justifyContent: 'center', }}>
+
+                            <Image
+                                source={images.logout}
+                                resizeMode="contain"
+                                style={{ width: 16, height: 16, tintColor: Colors.secondary }}
+                            />
+
+                        </View>
+                        <View style={{ justifyContent: 'center', paddingLeft: 15 }}>
+                            <Text
+                                style={{
+                                    color: Colors.secondary,
+                                    fontSize: 16
+                                }}>{'Logout'}</Text>
+                        </View>
+                    </TouchableOpacity>
+                }
             </ScrollView>
         </View>
     );
@@ -304,8 +749,8 @@ export default function Lounges() {
                     }]}>
                         <TouchableOpacity
                             style={{ alignItems: "center", justifyContent: "center" }}
-                            onPress={() => goto('all')}>
-                            {focused.includes("all") ?
+                            onPress={() => gotoswitch('all')}>
+                            {switchfocused.includes("all") ?
                                 <LinearGradient
                                     colors={['#0A8ED9', '#A0DAFB']}
                                     start={{ x: 0.5, y: 0.5 }}
@@ -346,8 +791,8 @@ export default function Lounges() {
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={{ alignItems: "center", justifyContent: "center" }}
-                            onPress={() => goto('lounge')}>
-                            {focused.includes("lounge") ?
+                            onPress={() => gotoswitch('lounge')}>
+                            {switchfocused.includes("lounge") ?
                                 <LinearGradient
                                     colors={['#0A8ED9', '#A0DAFB']}
                                     start={{ x: 0.5, y: 0.5 }}
@@ -388,8 +833,8 @@ export default function Lounges() {
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={{ alignItems: "center", justifyContent: "center" }}
-                            onPress={() => goto('shower')}>
-                            {focused.includes("shower") ?
+                            onPress={() => gotoswitch('shower')}>
+                            {switchfocused.includes("shower") ?
                                 <LinearGradient
                                     colors={['#0A8ED9', '#A0DAFB']}
                                     start={{ x: 0.5, y: 0.5 }}

@@ -75,4 +75,10 @@ export const images = {
   terms: require("../../assets/img/terms.png"),
   map: require("../../assets/img/map.png"),
   card: require("../../assets/img/card.png"),
+  atm: require("../../assets/img/atm.png"),
+  lounges: require("../../assets/img/lounges.png"),
+  public_transit: require("../../assets/img/public_transit.png"),
+  restrooms: require("../../assets/img/restrooms.png"),
+  taxi_rank: require("../../assets/img/taxi_rank.png"),
+  cart: require("../../assets/img/cart.png"),
 }

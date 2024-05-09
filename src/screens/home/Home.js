@@ -46,8 +46,19 @@ export default function Home() {
 
     const [drawerStatus, setDrawerStatus] = useState(false);
 
-    const [focused, setForcused] = useState("home");
 
+    
+
+    useEffect(() => {
+        // changeStore({ ...store, isLoggedin: false, isLoading: false, page: "home" });
+    }, [])
+
+    const handleDrawerToggle = (status) => {
+        drawer.current.openDrawer()
+        setDrawerStatus(status);
+    };
+
+    const [focused, setForcused] = useState("home");
     useEffect(() => {
         setForcused(store.page);
     }, [])
@@ -58,15 +69,6 @@ export default function Home() {
         navigation.replace(name);
     }
 
-
-    useEffect(() => {
-        // changeStore({ ...store, isLoggedin: false, isLoading: false, page: "home" });
-    }, [])
-
-    const handleDrawerToggle = (status) => {
-        drawer.current.openDrawer()
-        setDrawerStatus(status);
-    };
 
     const navigationView = () => (
         <View style={[{ flex: 1, backgroundColor: Colors.active }]}>

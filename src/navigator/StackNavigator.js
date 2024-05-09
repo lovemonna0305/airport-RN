@@ -31,7 +31,7 @@ import AirportGuide from "../screens/home/AirportGuide";
 import Services from "../screens/home/Services";
 import Lounges from "../screens/home/Lounges";
 import Account from "../screens/home/Account";
-// import SettingsPersonal from "../screens/home/SettingsPersonal";
+import Trolley from "../screens/home/Trolley";
 // import SettingsSecurity from "../screens/home/SettingsSecurity";
 // import SettingsAppearance from "../screens/home/SettingsAppearance";
 
@@ -134,12 +134,12 @@ export default function StackNavigator() {
                     component={Account}
                     options={{ headerShown: false }}
                   />
-                  {/*<Stack.Screen
-                    name="settingsSecurity"
-                    component={SettingsSecurity}
+                  <Stack.Screen
+                    name="trolley"
+                    component={Trolley}
                     options={{ headerShown: false }}
                   />
-                  <Stack.Screen
+                  {/*<Stack.Screen
                     name="settingsAppearance"
                     component={SettingsAppearance}
                     options={{ headerShown: false }}

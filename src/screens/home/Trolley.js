@@ -18,8 +18,9 @@ import React, { useState, useContext, useEffect, useRef } from "react";
 import style from "../../theme/style";
 import themeContext from "../../theme/themeContex";
 import { Colors } from "../../theme/color";
-import Icons from "react-native-vector-icons/Ionicons";
+import Icons from "react-native-vector-icons/MaterialCommunityIcons";
 import IconMaterial from "react-native-vector-icons/MaterialIcons";
+import IconIonicons from "react-native-vector-icons/Ionicons";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from "@react-navigation/native";
@@ -28,6 +29,7 @@ import { t } from "i18next";
 import Footer from "../../components/Footer";
 import { images } from "../../constants";
 import Header from "../../components/Header";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import TopHeader from "../../components/TopHeader";
 
 const width = Dimensions.get("screen").width;
@@ -35,7 +37,7 @@ const height = Dimensions.get("screen").height;
 
 
 
-export default function AirportGuide() {
+export default function Trolley() {
     const { changeStore, store } = useStore();
     const theme = useContext(themeContext);
     const navigation = useNavigation();
@@ -45,15 +47,12 @@ export default function AirportGuide() {
     const [drawerPosition, setDrawerPosition] = useState('left');
 
     const [datas, setDatas] = useState([
-        { image: images.lounges, desc: "Lounges", goto: "lounges" },
-        { image: images.shopping, desc: "Shops", goto: "lounges" },
-        { image: images.meal, desc: "Restaurants", goto: "lounges" },
-        { image: images.public_transit, desc: "Public Transit", goto: "lounges" },
-        { image: images.taxi_rank, desc: "Taxi rank", goto: "lounges" },
-        { image: images.parking, desc: "Parking", goto: "lounges" },
-        { image: images.restrooms, desc: "Restrooms", goto: "lounges" },
-        { image: images.atm, desc: "ATMs", goto: "lounges" },
+        { icon: images.icon, image: images.img1, desc: "Departures" },
+        { icon: images.icon2, image: images.img2, desc: "Arrivals" },
+        { icon: images.icon3, image: images.img3, desc: "Connections" },
     ])
+
+
 
     const [drawerStatus, setDrawerStatus] = useState(false);
 
@@ -61,55 +60,11 @@ export default function AirportGuide() {
         // changeStore({ ...store, isLoggedin: false, isLoading: false, page: "home" });
     }, [])
 
-    const renderItem = ({ item, index }) => {
-
-        return (
-            <View style={{ flexDirection: "row", justifyContent: "space-around", borderBottomWidth: 0.3, borderBottomColor: Colors.disable }}>
-                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-                    <Image
-                        source={item.image}
-                        style={{ width: 20, height: 20 }}
-                    />
-                    <Text
-                        style={{ paddingLeft: 20 }}
-                    >{item.desc}</Text>
-
-                </View>
-                <View>
-                    <TouchableOpacity
-                        onPress={() => navigation.navigate(item.goto)}
-                        style={{ width: 100, alignSelf: 'flex-end', padding: 10 }}>
-                        <LinearGradient
-                            colors={['#0A8ED9', '#A0DAFB']}
-                            start={{ x: 0.5, y: 0.5 }}
-                            end={{ x: 0.5, y: 0 }}
-                            style={{
-                                backgroundColor: Colors.active,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                borderRadius: 10
-                            }}>
-                            <Text
-                                style={{
-                                    color: Colors.secondary,
-                                    fontFamily: "Plus Jakarta Sans",
-                                    fontSize: 12,
-                                    padding: 10,
-                                    paddingHorizontal: 15,
-                                    alignItems: 'center'
-                                }}
-                            >{'Expand'}</Text>
-                        </LinearGradient>
-                    </TouchableOpacity>
-                </View>
-            </View>
-        );
-    };
-
     const handleDrawerToggle = (status) => {
         drawer.current.openDrawer()
         setDrawerStatus(status);
     };
+
 
     const [focused, setForcused] = useState("home");
     useEffect(() => {
@@ -625,6 +580,8 @@ export default function AirportGuide() {
             </ScrollView>
         </View>
     );
+
+
     return (
         <SafeAreaView style={[style.area, { backgroundColor: theme.bg, }]}>
             <DrawerLayoutAndroid
@@ -634,145 +591,87 @@ export default function AirportGuide() {
                 renderNavigationView={navigationView}
                 style={{ borderRadius: 20 }}
             >
-                <ScrollView style={{ flexGrow: 1, marginBottom: 50 }}
-                    nestedScrollEnabled={true}>
+                <ScrollView style={{ marginBottom: 50 }}>
                     <TopHeader onDrawerToggle={handleDrawerToggle} drawerStatus={drawerStatus} />
                     <Header />
                     {/* <StatusBar translucent={true} backgroundColor="transparent" /> */}
                     <View style={[style.main, { backgroundColor: theme.bg, }]}>
-                        <View style={{ flexDirection: "row", justifyContent: "flex-start", marginTop: 10, marginVertical: 10 }}>
-                            <Text style={[{ color: theme.txt, fontSize: 16 }]}>{t('Interactive Airport Map')}</Text>
+                        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: 'center', marginTop: 10, marginVertical: 10 }}>
+                            <TouchableOpacity onPress={() => navigation.goBack()}>
+                                <IconIonicons
+                                    name="chevron-back"
+                                    size={16}
+                                    style={{ backgroundColor: theme.itembg }}
+                                />
+                            </TouchableOpacity>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <Image
+                                    source={images.cart}
+                                    style={{ width: 20, height: 20, borderRadius: 5 }}
+                                />
+                                <Text style={{ color: theme.txt, fontSize: 16, paddingHorizontal: 20, paddingRight: 40, backgroundColor: theme.itembg, borderRadius: 5, }}>{'Trolley Services'}</Text>
+                            </View>
+                            <TouchableOpacity onPress={() => navigation.navigate('trolley')}>
+                                <IconIonicons
+                                    name="chevron-forward"
+                                    size={16}
+                                    style={{ backgroundColor: theme.itembg }}
+                                />
+                            </TouchableOpacity>
                         </View>
 
-                        <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+                        <View style={{ marginTop: 5, padding: 20, height: height * 0.75, backgroundColor: theme.itembg, borderRadius: 10 }}>
 
-                            <View style={{ paddingTop: 20 }}>
-                                <TouchableOpacity style={{ width: 35, }}>
-                                    <LinearGradient
-                                        colors={['#0A8ED9', '#A0DAFB']}
-                                        start={{ x: 0.5, y: 0.5 }}
-                                        end={{ x: 0.5, y: 0 }}
-                                        style={{
-                                            backgroundColor: Colors.active,
-                                            justifyContent: 'center',
-                                            alignItems: 'center',
-                                            borderRadius: 10
-                                        }}>
-                                        <IconMaterial
-                                            name="zoom-in"
-                                            color={Colors.secondary}
-                                            size={25}
-                                            style={{ padding: 5 }}
-                                        />
-                                    </LinearGradient>
-                                </TouchableOpacity>
-                            </View>
-                            <View style={{ paddingTop: 20 }}>
-                                <TouchableOpacity style={{ width: 35, }}>
-                                    <LinearGradient
-                                        colors={['#0A8ED9', '#A0DAFB']}
-                                        start={{ x: 0.5, y: 0.5 }}
-                                        end={{ x: 0.5, y: 0 }}
-                                        style={{
-                                            backgroundColor: Colors.active,
-                                            justifyContent: 'center',
-                                            alignItems: 'center',
-                                            borderRadius: 10
-                                        }}>
-                                        <IconMaterial
-                                            name="zoom-out"
-                                            color={Colors.secondary}
-                                            size={25}
-                                            style={{ padding: 5 }}
-                                        />
-                                    </LinearGradient>
-                                </TouchableOpacity>
-                            </View>
-
-                            <View style={{ flexDirection: "row", alignSelf: 'center', justifyContent: "center", width: width * 0.35, height: 40 }}>
-                                <View style={[style.inputContainer, { backgroundColor: theme.itembg, borderRadius: 10, }]}>
-                                    <Icons name="search" size={20} color={Colors.itemicon} />
+                            <View style={{ paddingTop: 5, flexDirection: 'row' }}>
+                                <Text
+                                    style={{
+                                        color: Colors.disable,
+                                        paddingVertical: 10,
+                                        marginRight: 10,
+                                    }}>
+                                    {'Number of Trolleys'}
+                                </Text>
+                                <View
+                                    style={[
+                                        style.txtinput,
+                                        {
+                                            flexDirection: "row",
+                                            justifyContent: "space-between",
+                                            alignItems: "center",
+                                            borderColor: Colors.border,
+                                            width: 120,
+                                            paddingHorizontal: 10,
+                                            height: 40,
+                                        },
+                                    ]}>
                                     <TextInput
-                                        placeholder={'Search'}
-                                        selectionColor={Colors.primary}
-                                        placeholderTextColor={Colors.disable}
+                                        placeholder="Type here..."
                                         style={{
-                                            flex: 1,
-                                            color: Colors.active,
+                                            borderColor: Colors.border,
+                                            color: Colors.disable,
                                             fontFamily: "Plus Jakarta Sans",
+                                            width: 100
                                         }}
                                     />
                                 </View>
                             </View>
-                            <View style={{ paddingTop: 20 }}>
-                                <TouchableOpacity style={{ width: 90, }}>
-                                    <LinearGradient
-                                        colors={['#0A8ED9', '#A0DAFB']}
-                                        start={{ x: 0.5, y: 0.5 }}
-                                        end={{ x: 0.5, y: 0 }}
-                                        style={{
-                                            backgroundColor: Colors.active,
-                                            justifyContent: 'center',
-                                            alignItems: 'center',
-                                            borderRadius: 10
-                                        }}>
-                                        <Text
-                                            style={{
-                                                color: Colors.secondary,
-                                                fontSize: 12,
-                                                padding: 10,
-                                                paddingHorizontal: 15,
-                                                alignItems: 'center'
-                                            }}
-                                        >{'Directions'}</Text>
-                                    </LinearGradient>
-                                </TouchableOpacity>
+
+                            <View style={{ flexDirection: "row", justifyContent: "flex-start", marginTop: 20, marginVertical: 10 }}>
+                                <Text style={[{ color: theme.txt, fontSize: 16 }]}>{t('Scan QR Code to Pick up a Trolley')}</Text>
                             </View>
-                        </View>
 
-                        <View style={{ marginTop: 15, height: height * 0.25, flexDirection: 'row', backgroundColor: theme.itembg, borderRadius: 10 }}>
-                            <Image
-                                source={images.map}
-                                style={{ flex: 1, height:height*0.25 }}
-                                resizeMode="stretch" />
-                        </View>
-                        <View style={{ flexDirection: "row", justifyContent: "flex-start", marginTop: 35, marginVertical: 10 }}>
-                            <Text style={[{ color: theme.txt, fontSize: 16 }]}>{t('Directory of Airport Amenities')}</Text>
-                        </View>
-                        <View style={{ marginTop: 5, backgroundColor: theme.itembg, borderRadius: 10,height:150, }}>
-                            <FlatList
-                                key={"airport-key-2"}
-                                data={datas}
-                                keyExtractor={(item, index) => {
-                                    return index;
-                                }}
-                                showsVerticalScrollIndicator={false}
-                                renderItem={renderItem}
-                            />
-                        </View>
-                        <View style={{ marginTop: 5, backgroundColor: theme.itembg, borderRadius: 10 }}>
-                            <TouchableOpacity
-                                style={{
-                                    backgroundColor: Colors.green,
-                                    alignItems: 'center',
-                                    borderRadius: 10
-
-                                }}>
-                                <Text style={{
-                                    fontSize: 12,
-                                    padding: 10,
-                                    paddingHorizontal: 15,
-                                    alignItems: 'center',
-                                    color: Colors.secondary
-                                }}>
-                                    {'Airport Services Information'}
-                                </Text>
-                            </TouchableOpacity>
+                            <View style={{ marginTop: 5, backgroundColor: theme.itembg, borderRadius: 10, alignSelf: 'center' }}>
+                                <Image
+                                    source={images.scan}
+                                    style={{ width: 200, height: 200 }}
+                                    resizeMode="contain"
+                                />
+                            </View>
                         </View>
                     </View>
                 </ScrollView>
             </DrawerLayoutAndroid>
-        </SafeAreaView >
+        </SafeAreaView>
     );
 }
 
