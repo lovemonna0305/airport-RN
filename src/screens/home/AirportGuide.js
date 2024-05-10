@@ -14,7 +14,7 @@ import {
     StyleSheet,
     Button,
 } from "react-native";
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, { useState, useContext, useEffect, useRef, createRef } from "react";
 import style from "../../theme/style";
 import themeContext from "../../theme/themeContex";
 import { Colors } from "../../theme/color";
@@ -29,6 +29,8 @@ import Footer from "../../components/Footer";
 import { images } from "../../constants";
 import Header from "../../components/Header";
 import TopHeader from "../../components/TopHeader";
+import { ReactNativeZoomableView } from '@openspacelabs/react-native-zoomable-view';
+
 
 const width = Dimensions.get("screen").width;
 const height = Dimensions.get("screen").height;
@@ -36,6 +38,7 @@ const height = Dimensions.get("screen").height;
 
 
 export default function AirportGuide() {
+    const zoomableViewRef = createRef();
     const { changeStore, store } = useStore();
     const theme = useContext(themeContext);
     const navigation = useNavigation();
@@ -54,6 +57,20 @@ export default function AirportGuide() {
         { image: images.restrooms, desc: "Restrooms", goto: "lounges" },
         { image: images.atm, desc: "ATMs", goto: "lounges" },
     ])
+
+    const [zoomLevel, setZoomLevel] = useState(1);
+
+    const zoomIn = () => {
+        if (zoomableViewRef.current) {
+            zoomableViewRef.current.zoomBy(0.5);
+        }
+    };
+
+    const zoomOut = () => {
+        if (zoomableViewRef.current) {
+            zoomableViewRef.current.zoomBy(-0.5);
+        }
+    };
 
     const [drawerStatus, setDrawerStatus] = useState(false);
 
@@ -647,7 +664,8 @@ export default function AirportGuide() {
                         <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
 
                             <View style={{ paddingTop: 20 }}>
-                                <TouchableOpacity style={{ width: 35, }}>
+                                <TouchableOpacity style={{ width: 35, }}
+                                    onPress={zoomIn}>
                                     <LinearGradient
                                         colors={['#0A8ED9', '#A0DAFB']}
                                         start={{ x: 0.5, y: 0.5 }}
@@ -668,7 +686,8 @@ export default function AirportGuide() {
                                 </TouchableOpacity>
                             </View>
                             <View style={{ paddingTop: 20 }}>
-                                <TouchableOpacity style={{ width: 35, }}>
+                                <TouchableOpacity style={{ width: 35, }}
+                                    onPress={zoomOut}>
                                     <LinearGradient
                                         colors={['#0A8ED9', '#A0DAFB']}
                                         start={{ x: 0.5, y: 0.5 }}
@@ -705,7 +724,8 @@ export default function AirportGuide() {
                                 </View>
                             </View>
                             <View style={{ paddingTop: 20 }}>
-                                <TouchableOpacity style={{ width: 90, }}>
+                                <TouchableOpacity style={{ width: 90, }}
+                                >
                                     <LinearGradient
                                         colors={['#0A8ED9', '#A0DAFB']}
                                         start={{ x: 0.5, y: 0.5 }}
@@ -730,16 +750,22 @@ export default function AirportGuide() {
                             </View>
                         </View>
 
-                        <View style={{ marginTop: 15, height: height * 0.25, flexDirection: 'row', backgroundColor: theme.itembg, borderRadius: 10 }}>
-                            <Image
-                                source={images.map}
-                                style={{ flex: 1, height:height*0.25 }}
-                                resizeMode="stretch" />
+
+                        <View style={{ flex: 1, marginTop: 15, height: height * 0.25, flexDirection: 'row', backgroundColor: theme.itembg, borderRadius: 10 }}>
+                            <ReactNativeZoomableView
+                                ref={zoomableViewRef}
+                                maxZoom={30}
+                            >
+                                <Image
+                                    style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
+                                    source={images.map}
+                                />
+                            </ReactNativeZoomableView>
                         </View>
                         <View style={{ flexDirection: "row", justifyContent: "flex-start", marginTop: 35, marginVertical: 10 }}>
                             <Text style={[{ color: theme.txt, fontSize: 16 }]}>{t('Directory of Airport Amenities')}</Text>
                         </View>
-                        <View style={{ marginTop: 5, backgroundColor: theme.itembg, borderRadius: 10,height:150, }}>
+                        <View style={{ marginTop: 5, backgroundColor: theme.itembg, borderRadius: 10, height: 150, }}>
                             <FlatList
                                 key={"airport-key-2"}
                                 data={datas}
