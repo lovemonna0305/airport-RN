@@ -26,11 +26,13 @@ import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from "@react-navigation/native";
 import { useStore } from "../../store/store";
 import { t } from "i18next";
-import Footer from "../../components/Footer";
 import { images } from "../../constants";
 import Header from "../../components/Header";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import TopHeader from "../../components/TopHeader";
+import Toast from "react-native-toast-message";
+const moment = require('moment-timezone');
+
 
 const width = Dimensions.get("screen").width;
 const height = Dimensions.get("screen").height;
@@ -46,6 +48,22 @@ export default function Services() {
     const drawer = useRef(null);
     const [drawerPosition, setDrawerPosition] = useState('left');
 
+    const [data, setData] = useState({
+
+        amount: 0,
+
+        park_date: "", // Choose date
+        d_park_date: new Date(), // Choose date
+        park_time: "", // Choose time
+        d_park_time: new Date(), // Choose time
+
+        pick_date: "", // Choose date
+        d_pick_date: new Date(), // Choose date
+        pick_time: "", // Choose time
+        d_pick_time: new Date(), // Choose time
+
+    });
+
     const [datas, setDatas] = useState([
         { icon: images.icon, image: images.img1, desc: "Departures" },
         { icon: images.icon2, image: images.img2, desc: "Arrivals" },
@@ -57,35 +75,71 @@ export default function Services() {
     const [drawerStatus, setDrawerStatus] = useState(false);
 
     useEffect(() => {
-        // changeStore({ ...store, isLoggedin: false, isLoading: false, page: "home" });
+        const currentDate = new Date();
+        const currentDateTime = moment(currentDate).tz('Asia/Tokyo').format('YYYY-MM-DD hh:mm:ss');
+
+        setData({
+            ...data,
+            park_date: moment(currentDate).tz('Asia/Tokyo').format('YYYY-MM-DD'),
+            d_park_date: moment(currentDateTime).toDate(),
+            park_time: moment(currentDate).tz('Asia/Tokyo').format('hh:mm'),
+            d_park_time: moment(currentDateTime).toDate(),
+
+            pick_date: moment(currentDate).tz('Asia/Tokyo').format('YYYY-MM-DD'),
+            d_pick_date: moment(currentDateTime).toDate(),
+            pick_time: moment(currentDate).tz('Asia/Tokyo').format('hh:mm'),
+            d_pick_time: moment(currentDateTime).toDate(),
+        });
+
     }, [])
 
-    const handleConfirm = (date) => {
-        hideDatePicker();
-        var currentDate = new Date(moment(new Date()).utcOffset('+0900').format('YYYY-MM-DD HH:mm'));
-        const datetime = new Date(date);
-        const day = datetime.getDate(); // Get the day (1-31)
-        const month = datetime.getMonth(); // Get the month (0-11)
-        const year = datetime.getFullYear(); // Get the full year (e.g., 2024)
+
+
+    const [isParkTimePickerVisible, setParkTimePickerVisibility] = useState(false);
+    const showParkTimePicker = () => {
+        setParkTimePickerVisibility(true);
     };
 
-    const [isStimePickerVisible, setStimePickerVisibility] = useState(false);
-    const showStimePicker = () => {
-        setStimePickerVisibility(true);
+    const hideParkTimePicker = () => {
+        setParkTimePickerVisibility(false);
     };
 
-    const hideStimePicker = () => {
-        setStimePickerVisibility(false);
-    };
-
-    const handleConfirmStime = (time) => {
-        hideStimePicker();
+    const handleConfirmParkTime = (time) => {
+        hideParkTimePicker();
         const datetime = new Date(time);
         const hours = datetime.getHours(); // Get the hour (0-23)
         const minutes = datetime.getMinutes(); // Get the minute (0-59)
         const seconds = datetime.getSeconds(); // Get the second (0-59)
 
-        setFirsttime(time);
+        setData({
+            ...data,
+            park_time: padZero(hours) + ":" + padZero(minutes),
+            d_park_time: datetime,
+        });
+
+    };
+
+    const [isPickTimePickerVisible, setPickTimePickerVisibility] = useState(false);
+    const showPickTimePicker = () => {
+        setPickTimePickerVisibility(true);
+    };
+
+    const hidePickTimePicker = () => {
+        setPickTimePickerVisibility(false);
+    };
+
+    const handleConfirmPickTime = (time) => {
+        hidePickTimePicker();
+        const datetime = new Date(time);
+        const hours = datetime.getHours(); // Get the hour (0-23)
+        const minutes = datetime.getMinutes(); // Get the minute (0-59)
+        const seconds = datetime.getSeconds(); // Get the second (0-59)
+
+        setData({
+            ...data,
+            pick_time: padZero(hours) + ":" + padZero(minutes),
+            d_pick_time: datetime,
+        });
     };
 
 
@@ -94,13 +148,76 @@ export default function Services() {
         setDrawerStatus(status);
     };
 
-    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-    const showDatePicker = () => {
-        setDatePickerVisibility(true);
+    const [isParkDatePickerVisible, setParkDatePickerVisibility] = useState(false);
+    const showParkDatePicker = () => {
+        setParkDatePickerVisibility(true);
     };
 
-    const hideDatePicker = () => {
-        setDatePickerVisibility(false);
+    const hideParkDatePicker = () => {
+        setParkDatePickerVisibility(false);
+    };
+
+    function padZero(num) {
+        return (num < 10 ? '0' : '') + num;
+    }
+
+    const handleParkConfirm = (date) => {
+        hideParkDatePicker();
+        var currentDate = new Date(moment(new Date()).utcOffset('+0900').format('YYYY-MM-DD HH:mm'));
+        const datetime = new Date(date);
+        const day = datetime.getDate(); // Get the day (1-31)
+        const month = datetime.getMonth(); // Get the month (0-11)
+        const year = datetime.getFullYear(); // Get the full year (e.g., 2024)
+
+        if (datetime > currentDate) {
+            setData({
+                ...data,
+                d_park_date: datetime,
+                park_date: year + "-" + padZero(month + 1) + "-" + padZero(day),
+            });
+        } else {
+            Toast.show({
+                type: "error",
+                text1: t("error"),
+                text2: "parked date is before today",
+            });
+        }
+    };
+
+    const [isPickDatePickerVisible, setPickDatePickerVisibility] = useState(false);
+    const showPickDatePicker = () => {
+        setPickDatePickerVisibility(true);
+    };
+
+    const hidePickDatePicker = () => {
+        setPickDatePickerVisibility(false);
+    };
+
+    function padZero(num) {
+        return (num < 10 ? '0' : '') + num;
+    }
+    const handlePickConfirm = (date) => {
+        hidePickDatePicker();
+        var currentDate = new Date(moment(new Date()).utcOffset('+0900').format('YYYY-MM-DD HH:mm'));
+        const datetime = new Date(date);
+        const day = datetime.getDate(); // Get the day (1-31)
+        const month = datetime.getMonth(); // Get the month (0-11)
+        const year = datetime.getFullYear(); // Get the full year (e.g., 2024)
+
+        if (datetime > currentDate) {
+            setData({
+                ...data,
+                d_pick_date: datetime,
+                pick_date: year + "-" + padZero(month + 1) + "-" + padZero(day),
+            });
+        } else {
+            Toast.show({
+                type: "error",
+                text1: t("error"),
+                text2: "picked date is before today",
+            });
+        }
+
     };
 
     const [focused, setForcused] = useState("home");
@@ -112,6 +229,15 @@ export default function Services() {
         changeStore({ ...store, page: name });
         setForcused(name);
         navigation.replace(name);
+    }
+
+    const getQuote = () => {
+        const differenceInMilliseconds = data.d_pick_date - data.d_park_date;
+        const differenceInDays = 5000.00 * Math.ceil(differenceInMilliseconds / (1000 * 60 * 60 * 24));
+        setData({
+            ...data,
+            amount: differenceInDays.toLocaleString(),
+        });
     }
 
 
@@ -644,7 +770,7 @@ export default function Services() {
                                     source={images.parking}
                                     style={{ width: 20, height: 20, borderRadius: 5 }}
                                 />
-                                <Text style={{ color: theme.txt, fontSize: 16, paddingHorizontal:20,paddingRight:40, backgroundColor:theme.itembg,borderRadius:5, }}>{'Parking'}</Text>
+                                <Text style={{ color: theme.txt, fontSize: 16, paddingHorizontal: 20, paddingRight: 40, backgroundColor: theme.itembg, borderRadius: 5, }}>{'Parking'}</Text>
                             </View>
                             <TouchableOpacity onPress={() => navigation.navigate('trolley')}>
                                 <IconIonicons
@@ -659,7 +785,7 @@ export default function Services() {
                             <Text style={[{ color: theme.txt, fontSize: 16 }]}>{t('Book Parking Online to Guaarantee your Spot')}</Text>
                         </View>
 
-                        <View style={{ marginTop: 5, height: height * 0.35, backgroundColor: theme.itembg, borderRadius: 10 }}>
+                        <View style={{ marginTop: 5, height: 350, backgroundColor: theme.itembg, borderRadius: 10 }}>
 
                             <View style={{ padding: 10 }}>
                                 <Text style={{ color: theme.txt }}>{'When would you like to park?'}</Text>
@@ -680,25 +806,25 @@ export default function Services() {
                                                     justifyContent: "space-between",
                                                     alignItems: "center",
                                                     borderColor: Colors.border,
-                                                    width: 120,
+                                                    width: 140,
                                                     paddingHorizontal: 10
                                                 },
                                             ]}>
                                             <TextInput
-                                                // value={data.date}
+                                                value={data.park_date}
                                                 style={{
                                                     color: Colors.disable,
                                                     fontFamily: "Plus Jakarta Sans",
-                                                    width: 70
+                                                    width: 100
                                                 }}
                                             />
-                                            <TouchableOpacity onPress={showDatePicker}>
+                                            <TouchableOpacity onPress={showParkDatePicker}>
                                                 <DateTimePickerModal
-                                                    isVisible={isDatePickerVisible}
+                                                    isVisible={isParkDatePickerVisible}
                                                     mode="date"
-                                                    // date={data.d_date}
-                                                    onConfirm={handleConfirm}
-                                                    onCancel={hideDatePicker}
+                                                    date={data.d_park_date}
+                                                    onConfirm={handleParkConfirm}
+                                                    onCancel={hideParkDatePicker}
                                                 />
                                                 <Icons name="calendar" size={18} color={theme.txt} />
                                             </TouchableOpacity>
@@ -723,22 +849,21 @@ export default function Services() {
                                                     width: 100,
                                                     paddingHorizontal: 10
                                                 },
-                                            ]}
-                                        >
+                                            ]}>
                                             <TextInput
-                                                // value={data.date}
+                                                value={data.park_time}
                                                 style={{
                                                     color: Colors.disable,
                                                     width: 50
                                                 }}
                                             />
-                                            <TouchableOpacity onPress={showStimePicker}>
+                                            <TouchableOpacity onPress={showParkTimePicker}>
                                                 <DateTimePickerModal
-                                                    isVisible={isStimePickerVisible}
+                                                    isVisible={isParkTimePickerVisible}
                                                     mode="time"
-                                                    locale="ja_jp"
-                                                    onConfirm={handleConfirmStime}
-                                                    onCancel={hideStimePicker}
+                                                    date={data.d_park_time}
+                                                    onConfirm={handleConfirmParkTime}
+                                                    onCancel={hideParkTimePicker}
                                                 />
                                                 <Icons name="clock" size={18} color={theme.txt} />
                                             </TouchableOpacity>
@@ -765,25 +890,25 @@ export default function Services() {
                                                     justifyContent: "space-between",
                                                     alignItems: "center",
                                                     borderColor: Colors.border,
-                                                    width: 120,
+                                                    width: 140,
                                                     paddingHorizontal: 10
                                                 },
                                             ]}>
                                             <TextInput
-                                                // value={data.date}
+                                                value={data.pick_date}
                                                 style={{
                                                     color: Colors.disable,
                                                     fontFamily: "Plus Jakarta Sans",
-                                                    width: 70
+                                                    width: 100
                                                 }}
                                             />
-                                            <TouchableOpacity onPress={showDatePicker}>
+                                            <TouchableOpacity onPress={showPickDatePicker}>
                                                 <DateTimePickerModal
-                                                    isVisible={isDatePickerVisible}
+                                                    isVisible={isPickDatePickerVisible}
                                                     mode="date"
-                                                    // date={data.d_date}
-                                                    onConfirm={handleConfirm}
-                                                    onCancel={hideDatePicker}
+                                                    date={data.d_pick_date}
+                                                    onConfirm={handlePickConfirm}
+                                                    onCancel={hidePickDatePicker}
                                                 />
                                                 <Icons name="calendar" size={18} color={theme.txt} />
                                             </TouchableOpacity>
@@ -811,19 +936,19 @@ export default function Services() {
                                             ]}
                                         >
                                             <TextInput
-                                                // value={data.date}
+                                                value={data.pick_time}
                                                 style={{
                                                     color: Colors.disable,
                                                     width: 50
                                                 }}
                                             />
-                                            <TouchableOpacity onPress={showStimePicker}>
+                                            <TouchableOpacity onPress={showPickTimePicker}>
                                                 <DateTimePickerModal
-                                                    isVisible={isStimePickerVisible}
+                                                    isVisible={isPickTimePickerVisible}
                                                     mode="time"
-                                                    locale="ja_jp"
-                                                    onConfirm={handleConfirmStime}
-                                                    onCancel={hideStimePicker}
+                                                    date={data.d_pick_time}
+                                                    onConfirm={handleConfirmPickTime}
+                                                    onCancel={hidePickTimePicker}
                                                 />
                                                 <Icons name="clock" size={18} color={theme.txt} />
                                             </TouchableOpacity>
@@ -832,7 +957,8 @@ export default function Services() {
                                 </View>
                             </View>
 
-                            <View style={{ paddingTop: 10, width: 100, alignSelf: 'center' }}>
+                            <TouchableOpacity style={{ paddingTop: 10, width: 100, alignSelf: 'center' }}
+                                onPress={() => getQuote()}>
                                 <LinearGradient
                                     colors={['#0A8ED9', '#A0DAFB']}
                                     start={{ x: 0.5, y: 0.5 }}
@@ -854,10 +980,38 @@ export default function Services() {
                                         }}
                                     >{'Get Quote'}</Text>
                                 </LinearGradient>
+                            </TouchableOpacity>
+                            <View style={{ flexDirection: "row", justifyContent: "center", alignItems: 'center', marginTop: 10, marginVertical: 10 }}>
+                                {data.amount != 0 ?
+                                    <>
+                                        <Text style={[{ color: theme.txt, fontSize: 16 }]}>{t(`Amount due is: ${data.amount}`)}</Text>
+                                        <TouchableOpacity style={{ marginLeft: 10, alignSelf: 'center' }}>
+                                            <LinearGradient
+                                                colors={['#0A8ED9', '#A0DAFB']}
+                                                start={{ x: 0.5, y: 0.5 }}
+                                                end={{ x: 0.5, y: 0 }}
+                                                style={{
+                                                    backgroundColor: Colors.active,
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center',
+                                                    borderRadius: 10
+                                                }}>
+                                                <Text
+                                                    style={{
+                                                        color: Colors.secondary,
+                                                        fontFamily: "Plus Jakarta Sans",
+                                                        fontSize: 12,
+                                                        padding: 10,
+                                                        paddingHorizontal: 20,
+                                                        alignItems: 'center'
+                                                    }}
+                                                >{'Pay'}</Text>
+                                            </LinearGradient>
+                                        </TouchableOpacity>
+                                    </>
+                                    : null}
                             </View>
-
                         </View>
-
                         <View style={{ flexDirection: "row", justifyContent: "flex-start", marginTop: 10, marginVertical: 10 }}>
                             <Text style={[{ color: theme.txt, fontSize: 16 }]}>{t('Scan QR Code to Exit')}</Text>
                         </View>
@@ -869,7 +1023,6 @@ export default function Services() {
                                 resizeMode="contain"
                             />
                         </View>
-
                     </View>
                 </ScrollView>
             </DrawerLayoutAndroid>
