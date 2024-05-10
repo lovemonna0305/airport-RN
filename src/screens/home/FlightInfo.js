@@ -714,10 +714,10 @@ export default function FlightInfo() {
                             </ImageBackground>
 
                             <View style={{ flex: 1, padding: 20, justifyContent: 'space-around' }}>
-                                <Text style={{ color: theme.txt }}>{'Flight Number'}</Text>
-                                <Text style={{ color: theme.txt }}>{'Departure Time'}</Text>
-                                <Text style={{ color: theme.txt }}>{'Gate'}</Text>
-                                <Text style={{ color: theme.txt }}>{'Status'}</Text>
+                                <Text style={{ color: theme.txt }}>{'Flight Number: BA009'}</Text>
+                                <Text style={{ color: theme.txt }}>{'Departure Time: 23:00'}</Text>
+                                <Text style={{ color: theme.txt }}>{'Gate: E012'}</Text>
+                                <Text style={{ color: theme.txt }}>{'Status: Landed'}</Text>
 
                             </View>
                         </View>
